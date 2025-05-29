@@ -95,6 +95,7 @@ const poemLanguages = [
   { value: "Portuguese", label: "Português (Portuguese)" },
   { value: "Russian", label: "Русский (Russian)" },
   { value: "Italian", label: "Italiano (Italian)" },
+  { value: "Bangla", label: "বাংলা (Bangla)" },
 ];
 
 
