@@ -8,7 +8,7 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3"> {/* Increased gap slightly */}
             <Camera className="h-8 w-8 text-primary" /> {/* Using Camera icon */}
-            <h1 className="text-2xl font-semibold text-foreground">
+            <h1 className="text-xl sm:text-2xl font-semibold text-foreground">
               PhotoPoem
             </h1>
           </div>

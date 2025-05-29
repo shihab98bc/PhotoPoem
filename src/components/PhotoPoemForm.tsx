@@ -233,18 +233,18 @@ export default function PhotoPoemForm() {
           <div className="flex justify-center items-center mb-3">
              <Sparkles className="h-12 w-12 text-primary animate-pulse" />
           </div>
-          <CardTitle className="text-3xl font-bold">Create Your PhotoPoem</CardTitle>
-          <CardDescription className="text-lg text-muted-foreground mt-1">Upload an image, choose your style, and let AI craft a unique poem.</CardDescription>
+          <CardTitle className="text-2xl sm:text-3xl font-bold">Create Your PhotoPoem</CardTitle>
+          <CardDescription className="text-base sm:text-lg text-muted-foreground mt-1">Upload an image, choose your style, and let AI craft a unique poem.</CardDescription>
         </CardHeader>
         <CardContent className="p-6 md:p-8">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <Tabs defaultValue="upload" className="w-full" onValueChange={(value) => form.setValue("imageSource", value as "upload" | "url")}>
                 <TabsList className="grid w-full grid-cols-2 bg-muted rounded-lg p-1">
-                  <TabsTrigger value="upload" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-md py-2.5">
+                  <TabsTrigger value="upload" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-md py-2.5 text-sm sm:text-base">
                     <UploadCloud className="mr-2 h-5 w-5" /> Upload File
                   </TabsTrigger>
-                  <TabsTrigger value="url" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-md py-2.5">
+                  <TabsTrigger value="url" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-md py-2.5 text-sm sm:text-base">
                     <ImageIcon className="mr-2 h-5 w-5" /> Image URL
                   </TabsTrigger>
                 </TabsList>
@@ -254,7 +254,7 @@ export default function PhotoPoemForm() {
                     name="file"
                     render={() => (
                       <FormItem>
-                        <FormLabel className="text-base font-semibold">Upload Image</FormLabel>
+                        <FormLabel className="text-sm sm:text-base font-semibold">Upload Image</FormLabel>
                         <FormControl>
                           <Input
                             type="file"
@@ -275,7 +275,7 @@ export default function PhotoPoemForm() {
                     name="imageUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base font-semibold">Image URL</FormLabel>
+                        <FormLabel className="text-sm sm:text-base font-semibold">Image URL</FormLabel>
                         <FormControl>
                            <Input 
                             placeholder="https://example.com/image.png" 
@@ -297,16 +297,18 @@ export default function PhotoPoemForm() {
 
               {imageDataUri && (
                 <div className="mt-8 p-4 border-2 border-primary/30 rounded-lg bg-muted/40 animate-in fade-in-0 duration-500 hover:shadow-xl transition-shadow duration-300">
-                  <h3 className="text-xl font-semibold mb-3 text-center text-foreground">Selected Image Preview</h3>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-3 text-center text-foreground">Selected Image Preview</h3>
                   <div className="flex justify-center">
-                    <Image
-                      src={imageDataUri}
-                      alt="Uploaded preview"
-                      width={350} 
-                      height={350} 
-                      className="rounded-lg object-contain max-h-[350px] shadow-lg border-2 border-background" 
-                      data-ai-hint="uploaded image"
-                    />
+                    <div className="w-full max-w-[300px] sm:max-w-[350px] mx-auto">
+                      <Image
+                        src={imageDataUri}
+                        alt="Uploaded preview"
+                        width={350} 
+                        height={350} 
+                        className="rounded-lg object-contain w-full h-auto shadow-lg border-2 border-background" 
+                        data-ai-hint="uploaded image"
+                      />
+                    </div>
                   </div>
                 </div>
               )}
@@ -316,18 +318,18 @@ export default function PhotoPoemForm() {
                 name="language"
                 render={({ field }) => (
                   <FormItem className="mt-6">
-                    <FormLabel className="text-base font-semibold flex items-center">
+                    <FormLabel className="text-sm sm:text-base font-semibold flex items-center">
                       <Languages className="mr-2 h-5 w-5 text-primary" /> Poem Language (Optional)
                     </FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="py-3 text-base">
+                        <SelectTrigger className="py-2.5 text-sm sm:py-3 sm:text-base">
                           <SelectValue placeholder="Select a language" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {poemLanguages.map(lang => (
-                          <SelectItem key={lang.value} value={lang.value} className="py-2 text-base">{lang.label}</SelectItem> 
+                          <SelectItem key={lang.value} value={lang.value} className="py-1.5 text-sm sm:py-2 sm:text-base">{lang.label}</SelectItem> 
                         ))}
                       </SelectContent>
                     </Select>
@@ -342,16 +344,16 @@ export default function PhotoPoemForm() {
                   name="tone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base font-semibold">Poem Tone (Optional)</FormLabel>
+                      <FormLabel className="text-sm sm:text-base font-semibold">Poem Tone (Optional)</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger className="py-3 text-base">
+                          <SelectTrigger className="py-2.5 text-sm sm:py-3 sm:text-base">
                             <SelectValue placeholder="Select a tone" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {poemTones.map(tone => (
-                            <SelectItem key={tone.value} value={tone.value} className="py-2 text-base">{tone.label}</SelectItem> 
+                            <SelectItem key={tone.value} value={tone.value} className="py-1.5 text-sm sm:py-2 sm:text-base">{tone.label}</SelectItem> 
                           ))}
                         </SelectContent>
                       </Select>
@@ -364,16 +366,16 @@ export default function PhotoPoemForm() {
                   name="style"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-base font-semibold">Poem Style (Optional)</FormLabel>
+                      <FormLabel className="text-sm sm:text-base font-semibold">Poem Style (Optional)</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger className="py-3 text-base">
+                          <SelectTrigger className="py-2.5 text-sm sm:py-3 sm:text-base">
                             <SelectValue placeholder="Select a style" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {poemStyles.map(style => (
-                            <SelectItem key={style.value} value={style.value} className="py-2 text-base">{style.label}</SelectItem>
+                            <SelectItem key={style.value} value={style.value} className="py-1.5 text-sm sm:py-2 sm:text-base">{style.label}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -388,7 +390,7 @@ export default function PhotoPoemForm() {
                 name="numberOfLines"
                 render={({ field }) => (
                   <FormItem className="mt-6">
-                    <FormLabel className="text-base font-semibold flex items-center">
+                    <FormLabel className="text-sm sm:text-base font-semibold flex items-center">
                        <ListTree className="mr-2 h-5 w-5 text-primary" /> Number of Lines (Optional)
                     </FormLabel>
                     <FormControl>
@@ -397,7 +399,7 @@ export default function PhotoPoemForm() {
                         placeholder="e.g., 12 (AI will decide if empty)" 
                         {...field} 
                         onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))}
-                        className="p-3 text-base"
+                        className="p-3 text-sm sm:text-base"
                       />
                     </FormControl>
                     <FormDescription className="text-sm pt-1">Specify how many lines you want your poem to be.</FormDescription>
@@ -406,12 +408,12 @@ export default function PhotoPoemForm() {
                 )}
               />
               
-              {error && <p className="text-base font-medium text-destructive text-center p-3 bg-destructive/10 rounded-md shadow-sm">{error}</p>}
+              {error && <p className="text-sm sm:text-base font-medium text-destructive text-center p-3 bg-destructive/10 rounded-md shadow-sm">{error}</p>}
 
-              <Button type="submit" disabled={isLoading || !imageDataUri} className="w-full text-xl py-7 mt-8 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+              <Button type="submit" disabled={isLoading || !imageDataUri} className="w-full text-lg py-6 sm:text-xl sm:py-7 mt-8 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                    <Loader2 className="mr-2 h-5 w-5 sm:h-6 sm:w-6 animate-spin" />
                     Generating Poem...
                   </>
                 ) : (
@@ -424,17 +426,17 @@ export default function PhotoPoemForm() {
           {poem && (
             <Card className="mt-10 animate-in fade-in-0 duration-700 shadow-lg rounded-lg">
               <CardHeader className="bg-muted/50 p-6">
-                <CardTitle className="text-2xl font-bold text-center">Your PhotoPoem</CardTitle>
+                <CardTitle className="text-xl sm:text-2xl font-bold text-center">Your PhotoPoem</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 p-6">
                 <Textarea
                   value={poem}
                   readOnly
                   rows={Math.max(8, poem.split('\n').length + 2)} 
-                  className="text-foreground bg-background p-6 rounded-lg shadow-inner text-base leading-relaxed whitespace-pre-wrap border-2 border-primary/20 focus:border-primary" 
+                  className="text-foreground bg-background p-4 sm:p-6 rounded-lg shadow-inner text-sm sm:text-base leading-relaxed whitespace-pre-wrap border-2 border-primary/20 focus:border-primary" 
                 />
-                <Button onClick={copyPoemToClipboard} variant="outline" className="w-full py-3 text-base border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-                  <Copy className="mr-2 h-5 w-5" /> Copy Poem
+                <Button onClick={copyPoemToClipboard} variant="outline" className="w-full py-3 text-sm sm:text-base border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                  <Copy className="mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Copy Poem
                 </Button>
               </CardContent>
             </Card>
