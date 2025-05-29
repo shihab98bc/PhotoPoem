@@ -159,6 +159,7 @@ export default function PhotoPoetForm() {
       setImageDataUri(null);
       setFileName(null);
       setIsLoading(false);
+ console.error("Error fetching image from URL:", err);
     }
   };
   
@@ -183,6 +184,7 @@ export default function PhotoPoetForm() {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred.";
       setError(`Failed to generate poem: ${errorMessage}`);
+ console.error("Error generating poem:", err); // Log the error object
       toast({ variant: "destructive", title: "AI Error", description: `Failed to generate poem: ${errorMessage}` });
     } finally {
       setIsLoading(false);
@@ -332,7 +334,7 @@ export default function PhotoPoetForm() {
                 />
               </div>
               
-              {error && <p className="text-sm font-medium text-destructive text-center p-2 bg-destructive/10 rounded-md">{error}</p>}
+ {error && <p className="text-sm font-medium text-destructive text-center p-2 bg-destructive/10 rounded-md break-words">{error}</p>}
 
               <Button type="submit" disabled={isLoading || !imageDataUri} className="w-full text-lg py-6 mt-8">
                 {isLoading ? (
