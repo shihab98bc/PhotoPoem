@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -86,6 +87,7 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
+    /* Sidebar variables for dark theme */
     --sidebar-background: 210 30% 10%; /* Even darker for sidebar in dark mode */
     --sidebar-foreground: 210 50% 90%;
     --sidebar-primary: 260 70% 75%;

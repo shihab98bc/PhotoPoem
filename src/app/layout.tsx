@@ -1,7 +1,9 @@
-import type {Metadata} from 'next';
-import {Geist, Geist_Mono} from 'next/font/google';
+
+import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster";
+import { ClientProviders } from './client-providers'; // New component
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -13,21 +15,21 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+// Static metadata for initial load / SEO
 export const metadata: Metadata = {
-  title: 'PhotoPoem',
-  description: 'Generate poems from your photos with AI.',
+  title: 'PhotoPoem', // Default title, will be updated by DynamicTitleSetter on client
+  description: 'Generate poems from your photos with AI.', // Default description
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning> {/* suppressHydrationWarning for next-themes pattern */}
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>
-        {children}
-        <Toaster />
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );
