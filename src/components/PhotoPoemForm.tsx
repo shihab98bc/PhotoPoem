@@ -31,7 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { UploadCloud, Settings2, Copy, Loader2, Image as ImageIcon } from "lucide-react";
+import { UploadCloud, Sparkles, Copy, Loader2, Image as ImageIcon } from "lucide-react"; // Changed Settings2 to Sparkles
 
 const formSchema = z.object({
   imageSource: z.enum(["upload", "url"]),
@@ -66,6 +66,8 @@ const poemTones = [
   { value: "Romantic", label: "Romantic" },
   { value: "Melancholic", label: "Melancholic" },
   { value: "Mysterious", label: "Mysterious" },
+  { value: "Whimsical", label: "Whimsical" },
+  { value: "Dramatic", label: "Dramatic" },
 ];
 
 const poemStyles = [
@@ -76,6 +78,8 @@ const poemStyles = [
   { value: "Sonnet", label: "Sonnet" },
   { value: "Rhyming Couplets", label: "Rhyming Couplets" },
   { value: "Narrative", label: "Narrative" },
+  { value: "Ballad", label: "Ballad" },
+  { value: "Ode", label: "Ode" },
 ];
 
 export default function PhotoPoemForm() {
@@ -96,7 +100,6 @@ export default function PhotoPoemForm() {
   });
 
   useEffect(() => {
-    // Reset image and poem if image source changes
     setImageDataUri(null);
     setPoem(null);
     setFileName(null);
@@ -113,7 +116,7 @@ export default function PhotoPoemForm() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageDataUri(reader.result as string);
-        setPoem(null); // Clear previous poem
+        setPoem(null); 
         setError(null);
       };
       reader.onerror = () => {
@@ -203,24 +206,24 @@ export default function PhotoPoemForm() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <Card className="shadow-lg transition-all duration-500 ease-out data-[loading=true]:opacity-50" data-loading={isLoading}>
-        <CardHeader className="text-center">
-          <div className="flex justify-center items-center mb-2">
-             <Settings2 className="h-10 w-10 text-primary" />
+      <Card className="shadow-xl transition-all duration-500 ease-out data-[loading=true]:opacity-60 data-[loading=true]:pointer-events-none rounded-xl overflow-hidden"> {/* Enhanced shadow and added rounded-xl */}
+        <CardHeader className="text-center bg-muted/50 p-6"> {/* Added background to header and padding */}
+          <div className="flex justify-center items-center mb-3"> {/* Increased margin bottom */}
+             <Sparkles className="h-12 w-12 text-primary animate-pulse" /> {/* Using Sparkles icon, increased size and added pulse */}
           </div>
-          <CardTitle className="text-3xl font-semibold">Create Your PhotoPoem</CardTitle>
-          <CardDescription>Upload an image or provide a URL, choose your style, and let AI craft a unique poem for you.</CardDescription>
+          <CardTitle className="text-3xl font-bold">Create Your PhotoPoem</CardTitle> {/* Made font bold */}
+          <CardDescription className="text-lg text-muted-foreground mt-1">Upload an image, choose your style, and let AI craft a unique poem.</CardDescription> {/* Increased text size and margin top */}
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6 md:p-8"> {/* Increased padding */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <Tabs defaultValue="upload" className="w-full" onValueChange={(value) => form.setValue("imageSource", value as "upload" | "url")}>
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="upload">
-                    <UploadCloud className="mr-2 h-4 w-4" /> Upload File
+                <TabsList className="grid w-full grid-cols-2 bg-muted rounded-lg p-1"> {/* Styled TabsList */}
+                  <TabsTrigger value="upload" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-md py-2.5">
+                    <UploadCloud className="mr-2 h-5 w-5" /> Upload File
                   </TabsTrigger>
-                  <TabsTrigger value="url">
-                    <ImageIcon className="mr-2 h-4 w-4" /> Image URL
+                  <TabsTrigger value="url" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md rounded-md py-2.5">
+                    <ImageIcon className="mr-2 h-5 w-5" /> Image URL
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="upload" className="mt-6">
@@ -229,16 +232,16 @@ export default function PhotoPoemForm() {
                     name="file"
                     render={() => (
                       <FormItem>
-                        <FormLabel>Upload Image</FormLabel>
+                        <FormLabel className="text-base font-semibold">Upload Image</FormLabel> {/* Styled FormLabel */}
                         <FormControl>
                           <Input
                             type="file"
                             accept="image/*"
                             onChange={handleFileChange}
-                            className="file:text-primary file:font-semibold hover:file:bg-primary/10"
+                            className="file:text-primary file:font-semibold hover:file:bg-primary/10 p-3 border-dashed border-2 hover:border-primary transition-colors" /* Enhanced input style */
                           />
                         </FormControl>
-                        {fileName && <FormDescription>Selected: {fileName}</FormDescription>}
+                        {fileName && <FormDescription className="text-sm pt-1">Selected: {fileName}</FormDescription>}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -250,7 +253,7 @@ export default function PhotoPoemForm() {
                     name="imageUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Image URL</FormLabel>
+                        <FormLabel className="text-base font-semibold">Image URL</FormLabel> {/* Styled FormLabel */}
                         <FormControl>
                            <Input 
                             placeholder="https://example.com/image.png" 
@@ -259,9 +262,10 @@ export default function PhotoPoemForm() {
                               field.onChange(e);
                               handleImageUrlChange(e.target.value);
                             }}
+                            className="p-3" /* Enhanced input style */
                           />
                         </FormControl>
-                        <FormDescription>Paste a direct link to an image.</FormDescription>
+                        <FormDescription className="text-sm pt-1">Paste a direct link to an image.</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -270,15 +274,15 @@ export default function PhotoPoemForm() {
               </Tabs>
 
               {imageDataUri && (
-                <div className="mt-6 p-4 border rounded-md bg-muted/30 animate-in fade-in-0 duration-500">
-                  <h3 className="text-lg font-medium mb-2 text-center">Selected Image Preview</h3>
+                <div className="mt-8 p-4 border-2 border-primary/30 rounded-lg bg-muted/40 animate-in fade-in-0 duration-500 hover:shadow-xl transition-shadow duration-300"> {/* Enhanced border and added hover effect */}
+                  <h3 className="text-xl font-semibold mb-3 text-center text-foreground">Selected Image Preview</h3> {/* Styled heading */}
                   <div className="flex justify-center">
                     <Image
                       src={imageDataUri}
                       alt="Uploaded preview"
-                      width={300}
-                      height={300}
-                      className="rounded-md object-contain max-h-[300px] shadow-md"
+                      width={350} /* Increased size */
+                      height={350} /* Increased size */
+                      className="rounded-lg object-contain max-h-[350px] shadow-lg border-2 border-background" /* Enhanced shadow and border */
                       data-ai-hint="uploaded image"
                     />
                   </div>
@@ -291,16 +295,16 @@ export default function PhotoPoemForm() {
                   name="tone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Poem Tone (Optional)</FormLabel>
+                      <FormLabel className="text-base font-semibold">Poem Tone (Optional)</FormLabel> {/* Styled FormLabel */}
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="py-3 text-base"> {/* Enhanced SelectTrigger */}
                             <SelectValue placeholder="Select a tone" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {poemTones.map(tone => (
-                            <SelectItem key={tone.value} value={tone.value}>{tone.label}</SelectItem>
+                            <SelectItem key={tone.value} value={tone.value} className="py-2 text-base">{tone.label}</SelectItem> 
                           ))}
                         </SelectContent>
                       </Select>
@@ -313,16 +317,16 @@ export default function PhotoPoemForm() {
                   name="style"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Poem Style (Optional)</FormLabel>
+                      <FormLabel className="text-base font-semibold">Poem Style (Optional)</FormLabel> {/* Styled FormLabel */}
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="py-3 text-base"> {/* Enhanced SelectTrigger */}
                             <SelectValue placeholder="Select a style" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {poemStyles.map(style => (
-                            <SelectItem key={style.value} value={style.value}>{style.label}</SelectItem>
+                            <SelectItem key={style.value} value={style.value} className="py-2 text-base">{style.label}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -332,12 +336,12 @@ export default function PhotoPoemForm() {
                 />
               </div>
               
-              {error && <p className="text-sm font-medium text-destructive text-center p-2 bg-destructive/10 rounded-md">{error}</p>}
+              {error && <p className="text-base font-medium text-destructive text-center p-3 bg-destructive/10 rounded-md shadow-sm">{error}</p>} {/* Enhanced error message styling */}
 
-              <Button type="submit" disabled={isLoading || !imageDataUri} className="w-full text-lg py-6 mt-8">
+              <Button type="submit" disabled={isLoading || !imageDataUri} className="w-full text-xl py-7 mt-8 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"> {/* Enhanced button style */}
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    <Loader2 className="mr-2 h-6 w-6 animate-spin" />
                     Generating Poem...
                   </>
                 ) : (
@@ -348,19 +352,19 @@ export default function PhotoPoemForm() {
           </Form>
 
           {poem && (
-            <Card className="mt-10 animate-in fade-in-0 duration-700">
-              <CardHeader>
-                <CardTitle className="text-2xl font-semibold text-center">Your PhotoPoem</CardTitle>
+            <Card className="mt-10 animate-in fade-in-0 duration-700 shadow-lg rounded-lg"> {/* Enhanced card style */}
+              <CardHeader className="bg-muted/50 p-6"> {/* Added background and padding */}
+                <CardTitle className="text-2xl font-bold text-center">Your PhotoPoem</CardTitle> {/* Made font bold */}
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 p-6"> {/* Increased padding */}
                 <Textarea
                   value={poem}
                   readOnly
-                  rows={Math.max(5, poem.split('\n').length + 2)}
-                  className="text-foreground bg-muted/20 p-4 rounded-md shadow-inner text-sm leading-relaxed whitespace-pre-wrap"
+                  rows={Math.max(8, poem.split('\n').length + 2)} /* Increased min rows */
+                  className="text-foreground bg-background p-6 rounded-lg shadow-inner text-base leading-relaxed whitespace-pre-wrap border-2 border-primary/20 focus:border-primary" /* Enhanced textarea style */
                 />
-                <Button onClick={copyPoemToClipboard} variant="outline" className="w-full">
-                  <Copy className="mr-2 h-4 w-4" /> Copy Poem
+                <Button onClick={copyPoemToClipboard} variant="outline" className="w-full py-3 text-base border-primary text-primary hover:bg-primary hover:text-primary-foreground"> {/* Enhanced button style */}
+                  <Copy className="mr-2 h-5 w-5" /> Copy Poem
                 </Button>
               </CardContent>
             </Card>
