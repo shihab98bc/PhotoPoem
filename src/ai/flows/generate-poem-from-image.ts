@@ -30,6 +30,12 @@ const GeneratePoemFromImageInputSchema = z.object({
     .string()
     .optional()
     .describe('The desired language of the poem (e.g., English, Spanish, French). Defaults to English if not specified.'),
+  numberOfLines: z
+    .number()
+    .int()
+    .positive()
+    .optional()
+    .describe('The desired number of lines for the poem. If not specified, the AI will decide.'),
 });
 export type GeneratePoemFromImageInput = z.infer<typeof GeneratePoemFromImageInputSchema>;
 
@@ -66,6 +72,10 @@ Style: {{style}}
 Please write the poem in {{language}}.
 {{else}}
 Please write the poem in English.
+{{/if}}
+
+{{#if numberOfLines}}
+The poem should have exactly {{numberOfLines}} lines.
 {{/if}}
 
 Compose a poem inspired by the image. The poem should be creative, evocative, and capture the

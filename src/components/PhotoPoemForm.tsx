@@ -31,7 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { UploadCloud, Sparkles, Copy, Loader2, Image as ImageIcon, Languages } from "lucide-react";
+import { UploadCloud, Sparkles, Copy, Loader2, Image as ImageIcon, Languages, ListTree } from "lucide-react";
 
 const formSchema = z.object({
   imageSource: z.enum(["upload", "url"]),
@@ -40,6 +40,7 @@ const formSchema = z.object({
   tone: z.string().optional(),
   style: z.string().optional(),
   language: z.string().optional(),
+  numberOfLines: z.coerce.number().int().positive("Number of lines must be a positive integer.").optional().or(z.literal('')),
 }).superRefine((data, ctx) => {
   if (data.imageSource === "upload" && !data.file) {
     ctx.addIssue({
@@ -111,9 +112,10 @@ export default function PhotoPoemForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       imageSource: "upload",
-      tone: "default", 
+      tone: "default",
       style: "default",
       language: "default",
+      numberOfLines: '',
     },
   });
 
@@ -134,7 +136,7 @@ export default function PhotoPoemForm() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageDataUri(reader.result as string);
-        setPoem(null); 
+        setPoem(null);
         setError(null);
       };
       reader.onerror = () => {
@@ -199,6 +201,7 @@ export default function PhotoPoemForm() {
         tone: (values.tone === "" || values.tone === "default") ? undefined : values.tone,
         style: (values.style === "" || values.style === "default") ? undefined : values.style,
         language: (values.language === "" || values.language === "default") ? undefined : values.language,
+        numberOfLines: values.numberOfLines === '' ? undefined : Number(values.numberOfLines),
       };
       const result = await generatePoemFromImage(input);
       setPoem(result.poem);
@@ -379,6 +382,29 @@ export default function PhotoPoemForm() {
                   )}
                 />
               </div>
+
+              <FormField
+                control={form.control}
+                name="numberOfLines"
+                render={({ field }) => (
+                  <FormItem className="mt-6">
+                    <FormLabel className="text-base font-semibold flex items-center">
+                       <ListTree className="mr-2 h-5 w-5 text-primary" /> Number of Lines (Optional)
+                    </FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="number" 
+                        placeholder="e.g., 12 (AI will decide if empty)" 
+                        {...field} 
+                        onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))}
+                        className="p-3 text-base"
+                      />
+                    </FormControl>
+                    <FormDescription className="text-sm pt-1">Specify how many lines you want your poem to be.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               
               {error && <p className="text-base font-medium text-destructive text-center p-3 bg-destructive/10 rounded-md shadow-sm">{error}</p>}
 
