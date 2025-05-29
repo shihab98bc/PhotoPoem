@@ -336,7 +336,7 @@ export default function PhotoPoemForm() {
                       </FormControl>
                       <SelectContent>
                         {poemLanguages.map(lang => (
-                          <SelectItem key={lang.value} value={lang.value} className="py-1.5 text-sm sm:py-2 sm:text-base">{lang.label}</SelectItem> 
+                          <SelectItem key={lang.value} value={lang.value} className="py-1.5 text-sm sm:py-2 sm:text-base">{t(lang.labelKey, {defaultValue: lang.label})}</SelectItem> 
                         ))}
                       </SelectContent>
                     </Select>
@@ -360,7 +360,7 @@ export default function PhotoPoemForm() {
                         </FormControl>
                         <SelectContent>
                           {poemTones.map(tone => (
-                            <SelectItem key={tone.value} value={tone.value} className="py-1.5 text-sm sm:py-2 sm:text-base">{tone.label}</SelectItem> 
+                            <SelectItem key={tone.value} value={tone.value} className="py-1.5 text-sm sm:py-2 sm:text-base">{t(tone.labelKey, {defaultValue: tone.label})}</SelectItem> 
                           ))}
                         </SelectContent>
                       </Select>
@@ -382,7 +382,7 @@ export default function PhotoPoemForm() {
                         </FormControl>
                         <SelectContent>
                           {poemStyles.map(style => (
-                            <SelectItem key={style.value} value={style.value} className="py-1.5 text-sm sm:py-2 sm:text-base">{style.label}</SelectItem>
+                            <SelectItem key={style.value} value={style.value} className="py-1.5 text-sm sm:py-2 sm:text-base">{t(style.labelKey, {defaultValue: style.label})}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
