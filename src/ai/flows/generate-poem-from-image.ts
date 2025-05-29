@@ -1,4 +1,3 @@
-// This file is machine-generated - do not edit!
 
 'use server';
 
@@ -27,6 +26,10 @@ const GeneratePoemFromImageInputSchema = z.object({
     .string()
     .optional()
     .describe('The desired style of the poem.'),
+  language: z
+    .string()
+    .optional()
+    .describe('The desired language of the poem (e.g., English, Spanish, French). Defaults to English if not specified.'),
 });
 export type GeneratePoemFromImageInput = z.infer<typeof GeneratePoemFromImageInputSchema>;
 
@@ -51,13 +54,18 @@ You will analyze the image and compose a poem that captures its essence and emot
 
 Image: {{media url=photoDataUri}}
 
-
 {{#if tone}}
 Tone: {{tone}}
 {{/if}}
 
 {{#if style}}
 Style: {{style}}
+{{/if}}
+
+{{#if language}}
+Please write the poem in {{language}}.
+{{else}}
+Please write the poem in English.
 {{/if}}
 
 Compose a poem inspired by the image. The poem should be creative, evocative, and capture the
