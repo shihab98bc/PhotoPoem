@@ -1,3 +1,4 @@
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -58,7 +59,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const poemTones = [
-  { value: "", label: "Default Tone" },
+  { value: "default", label: "Default Tone" },
   { value: "Joyful", label: "Joyful" },
   { value: "Reflective", label: "Reflective" },
   { value: "Humorous", label: "Humorous" },
@@ -68,7 +69,7 @@ const poemTones = [
 ];
 
 const poemStyles = [
-  { value: "", label: "Default Style" },
+  { value: "default", label: "Default Style" },
   { value: "Free Verse", label: "Free Verse" },
   { value: "Haiku", label: "Haiku" },
   { value: "Limerick", label: "Limerick" },
@@ -89,8 +90,8 @@ export default function PhotoPoetForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       imageSource: "upload",
-      tone: "",
-      style: "",
+      tone: "", // Empty string will show placeholder, as no SelectItem has value ""
+      style: "", // Empty string will show placeholder
     },
   });
 
@@ -174,8 +175,8 @@ export default function PhotoPoetForm() {
     try {
       const input: GeneratePoemFromImageInput = {
         photoDataUri: imageDataUri,
-        tone: values.tone || undefined,
-        style: values.style || undefined,
+        tone: (values.tone === "" || values.tone === "default") ? undefined : values.tone,
+        style: (values.style === "" || values.style === "default") ? undefined : values.style,
       };
       const result = await generatePoemFromImage(input);
       setPoem(result.poem);
