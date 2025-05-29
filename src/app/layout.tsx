@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'PhotoPoet',
+  title: 'PhotoPoem',
   description: 'Generate poems from your photos with AI.',
 };
 
